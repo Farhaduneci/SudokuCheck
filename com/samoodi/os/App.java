@@ -1,7 +1,3 @@
-/* -------------------------------------------------------------------------- */
-/*                          Reza Samoodi, 970 30 33                          */
-/* -------------------------------------------------------------------------- */
-
 package os;
 
 import java.util.LinkedList;
@@ -12,6 +8,8 @@ import jcolor.*;
 public class App {
     //Sudoku table size
     public final static int TABLE_SIZE = 9;
+
+    private final static boolean manual = false;
     
     /*
     * Java Colored Debug Printer (JColor) offers an easy syntax to print messages with a
@@ -34,6 +32,9 @@ public class App {
     
     public static List<Local> locals = new LinkedList<>();
 
+    //Scanner instance
+    public static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
         //Create Local zones
         for(int row = 0; row < 9; row += 3){
@@ -42,46 +43,92 @@ public class App {
             }
         }
 
-        //Scanner instance
-        Scanner scanner = new Scanner(System.in);
-
         //Array to save input numbers as sudoku table
         int table[][] = new int[TABLE_SIZE][TABLE_SIZE]; 
         
         int inputNumber = 0; //Input variable
 
-        //Print the empty array
-        printTable(table);
+        if (manual)
+            //Print the empty array
+            printTable(table);
 
-        for (int i = 0; i < TABLE_SIZE; i++) { //Iterates over table rows
-            for (int j = 0; j < TABLE_SIZE; j++) { //Iterates over table columns
-                inputNumber = getInput(error, scanner, false);
+        if (manual) {
+            checkTable(inputNumber, table, true);
+        } else {
+            //A valid board.
+            /*
+            table = new int[][] {
+                {1, 4, 7, 0, 0, 0, 0, 0, 3},
+                {2, 5, 0, 0, 0, 1, 0, 0, 0},
+                {3, 0, 9, 0, 0, 0, 0, 0, 0},
+                {0, 8, 0, 0, 2, 0, 0, 0, 4},
+                {0, 0, 0, 4, 1, 0, 0, 2, 0},
+                {9, 0, 0, 0, 0, 0, 6, 0, 0},
+                {0, 0, 3, 0, 0, 0, 0, 0, 9},
+                {4, 0, 0, 0, 0, 2, 0, 0, 0},
+                {0, 0, 1, 0, 0, 8, 0, 0, 7},
+            };
+            */
 
-                //Validate Input
-                boolean valid = validateNumber(inputNumber, table, i, j);
-                
-                if (valid) {
-                    //Save input
-                    table[i][j] = inputNumber;
-                }
+            //An invalid board, the first row contains repeated values.
             
-                if (!valid) {
-                    do {
-                        inputNumber = getInput(error, scanner, true);
-                    } while (!validateNumber(inputNumber, table, i, j));
+            table = new int[][] {
+                {1, 4, 4, 0, 0, 0, 0, 0, 3},
+                {2, 5, 0, 0, 0, 1, 0, 0, 0},
+                {3, 0, 9, 0, 0, 0, 0, 0, 0},
+                {0, 8, 0, 0, 2, 0, 0, 0, 4},
+                {0, 0, 0, 4, 1, 0, 0, 2, 0},
+                {9, 0, 0, 0, 0, 0, 6, 0, 0},
+                {0, 0, 3, 0, 0, 0, 0, 0, 9},
+                {4, 0, 0, 0, 0, 2, 0, 0, 0},
+                {0, 0, 1, 0, 0, 8, 0, 0, 7},
+            };
 
-                    //Save input
-                    table[i][j] = inputNumber;
-                }
-
-                printTable(table);
-            }
+            checkTable(inputNumber, table, false);
         }
 
-        System.out.println(Ansi.colorize("Hurray, Sudoku entered was OK!", succuss));
+        if (manual)
+            System.out.println(Ansi.colorize("Hurray, Sudoku entered was OK!", succuss));
 
         // Not necessary needed but not using this will cause resource leak!
         scanner.close();
+    }
+
+    private static void checkTable(int inputNumber, int[][] table, boolean manual) {
+        if (manual) {
+            for (int i = 0; i < TABLE_SIZE; i++) { //Iterates over table rows
+                for (int j = 0; j < TABLE_SIZE; j++) { //Iterates over table columns
+                    inputNumber = getInput(error, scanner, false);
+    
+                    //Validate Input
+                    boolean valid = validateNumber(inputNumber, table, i, j);
+                    
+                    if (valid) {
+                        //Save input
+                        table[i][j] = inputNumber;
+                    }
+                    
+                    if (!valid) {
+                        do {
+                            inputNumber = getInput(error, scanner, true);
+                        } while (!validateNumber(inputNumber, table, i, j));
+            
+                        //Save input
+                        table[i][j] = inputNumber;
+                    }
+    
+                    printTable(table);
+                }
+            }
+        } else {
+            for (int i = 0; i < TABLE_SIZE; i++) { //Iterates over table rows
+                for (int j = 0; j < TABLE_SIZE; j++) { //Iterates over table columns
+                    int number = table[i][j];
+
+                    validateNumber(number, table, i, j);
+                }
+            }
+        }
     }
 
     private static int getInput(AnsiFormat error, Scanner scanner, boolean wasWrong) {

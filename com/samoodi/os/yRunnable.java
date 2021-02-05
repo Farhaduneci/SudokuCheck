@@ -25,7 +25,7 @@ public class yRunnable implements Runnable {
   @Override
   public void run() {
     for (int i = this.i - 1; i >= 0; i--) {
-      if (number == table[i][j]) {
+      if (table[i][j] != 0 && number == table[i][j]) {
         System.out.println(Ansi.colorize(
           "\n" + "Vertical Validation Error! " + 
           "Number " + number + " repeats at index " + (i + 1), App.error));

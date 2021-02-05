@@ -27,7 +27,7 @@ public class xRunnable implements Runnable {
   @Override
   public void run() {
     for (int j = this.j - 1; j >= 0; j--) {
-      if (number == table[i][j]) {
+      if (table[i][j] != 0 && number == table[i][j]) {
         System.out.println(Ansi.colorize(
           "\n" + "Horizontal Validation Error! " + 
           "Number " + number + " repeats at index " + (j + 1), App.error));
