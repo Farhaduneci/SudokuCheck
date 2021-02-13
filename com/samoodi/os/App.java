@@ -96,6 +96,7 @@ public class App {
 
             while (!scanner.hasNextInt()) {
                 System.out.println(Ansi.colorize("That's not a number!", error));
+                System.out.print("\nPlease enter a number: ");
                 scanner.next();
             }
 
@@ -132,7 +133,7 @@ public class App {
 
     private static void clearScreen() { 
         System.out.print("\033[H\033[2J");  
-        System.out.flush();  
+        System.out.flush();
     }
 
 	private static boolean validateNumber(int number, int[][] table, int i, int j) {

@@ -22,6 +22,7 @@ public class yRunnable implements Runnable {
   public boolean getHasError() {
 		return this.hasError;
 	}
+  
   @Override
   public void run() {
     for (int i = this.i - 1; i >= 0; i--) {

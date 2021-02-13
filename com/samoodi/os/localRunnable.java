@@ -1,13 +1,11 @@
 package os;
 
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 import jcolor.Ansi;
 
 public class localRunnable implements Runnable {
-
   private boolean hasError;
   
   private int number;
@@ -37,9 +35,9 @@ public class localRunnable implements Runnable {
     //Set will never let duplicated inputs
     Set<Integer> set = new HashSet<Integer>();
 
-    int correntLocal = Local.findLocal(this.i, this.j);
+    int currentLocal = Local.findLocal(this.i, this.j);
 
-    Local local = App.locals.get(correntLocal);
+    Local local = App.locals.get(currentLocal);
 
     for (int i = local.startI; i <= local.endI; i++) {
       for (int j = local.startJ; j <= local.endJ; j++) {
